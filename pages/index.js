@@ -12,11 +12,19 @@ function ProfileSideBar(props) {
 }
 
 
+
+
 export default function Home() {
-
     const githubUser = "mentalitydark";
-    const pessoasFavoritas = ['juunegreiros', 'omariosouto', 'peas', 'rafaballerini', 'marcobrunodev', 'felipefialho']
-
+    const pessoasFavoritas = ['juunegreiros', 'omariosouto', 'peas', 'rafaballerini', 'marcobrunodev', 'felipefialho'];
+    const myInfos = [{ name: 'Recados', slug: '10', icon: 'book' },
+                    { name: 'Fotos', slug: '1', icon: 'camera' },
+                    { name: 'Videos', slug: '0', icon: 'video-camera' },
+                    { name: 'Fãs', slug: '1', icon: 'star' },
+                    { name: 'Mensagens', slug: '1', icon: 'email' }];
+    const reactions = [{ name: 'Confiável', slug: '3', icon: 'smile' },
+                    { name: 'Legal', slug: '2', icon: 'cool' },
+                    { name: 'Sexy', slug: '0', icon: 'heart' }];
   return (
     <>
         <AlurakutMenu/>
@@ -27,7 +35,7 @@ export default function Home() {
         <div className="welcomeArea" style={{gridArea: 'welcomeArea'}}>
             <Box>
                 <h1 className="title">Bem-vindo(a)</h1>
-                <OrkutNostalgicIconSet/>
+                <OrkutNostalgicIconSet myInfos={myInfos} reactions={reactions}/>
             </Box>
         </div>
         <div className="profileRelationsArea" style={{gridArea: 'profileRelationsArea'}}>

@@ -35,7 +35,7 @@ export function AlurakutMenu({ githubUser }) {
         </nav>
 
         <nav>
-          <a href={`/logout`}>
+          <a className="specialA" href={`/logout`}>
             Sair
           </a>
           <div>
@@ -54,7 +54,7 @@ export function AlurakutMenu({ githubUser }) {
 }
 AlurakutMenu.Wrapper = styled.header`
   width: 100%;
-  background-color: #308BC5;
+  background-color: #3F3F3F;
   .alurakutMenuProfileSidebar {
     background: white;
     position: fixed;
@@ -93,7 +93,7 @@ AlurakutMenu.Wrapper = styled.header`
     }
   }
   .container {
-    background-color: #308BC5;
+    background-color: #3F3F3F;
     padding: 7px 16px;
     max-width: 1110px;
     margin: auto;
@@ -124,9 +124,28 @@ AlurakutMenu.Wrapper = styled.header`
         padding: 10px 16px;
         position: relative;
         text-decoration: none;
+        &:not(:first-child):after {
+          content: " ";
+          background-color: #FFF;
+          display: block;
+          position: absolute;
+          width: 1px;
+          height: 12px;
+          margin: auto;
+          left: 0;
+          top: 0;
+          bottom: 0;
+        }
+      }
+      .specialA {
+        font-size: 12px;
+        color: white;
+        padding: 10px 16px;
+        position: relative;
+        text-decoration: none;
         &:after {
           content: " ";
-          background-color: #5292C1;
+          background-color: #FFF;
           display: block;
           position: absolute;
           width: 1px;
@@ -140,7 +159,7 @@ AlurakutMenu.Wrapper = styled.header`
     }
     input {
       color: #ffffff;
-      background: #5579A1;
+      background: #4a4a4a;
       padding: 10px 42px;
       border: 0;
       background-image: url(${`${BASE_URL}/icons/search.svg`});
@@ -240,31 +259,23 @@ AlurakutProfileSidebarMenuDefault.Wrapper = styled.div`
 // OrkutNostalgicIconSet
 // ================================================================================================================
 export function OrkutNostalgicIconSet(props) {
+  const myInfos = props.myInfos;
+  const reactions = props.reactions;
   return (
     <OrkutNostalgicIconSet.List>
-      {[
-        { name: 'Recados', slug: 'recados', icon: 'book' },
-        { name: 'Fotos', slug: 'fotos', icon: 'camera' },
-        { name: 'Videos', slug: 'videos', icon: 'video-camera' },
-        { name: 'Fãs', slug: 'fas', icon: 'star' },
-        { name: 'Mensagens', slug: 'mensagens', icon: 'email' },
-      ].map(({ name, slug, icon }) => (
+      {myInfos.map(({ name, slug, icon }) => (
         <li key={`orkut__icon_set__${slug}`}>
           <span style={{ gridArea: 'title' }} className="OrkutNostalgicIconSet__title">
             {name}
           </span>
           <span className="OrkutNostalgicIconSet__number" style={{ gridArea: 'number' }}>
             <img key={`orkut__icon_set__${slug}_img`} className="OrkutNostalgicIconSet__iconSample" src={`https://alurakut.vercel.app/icons/${icon}.svg`} />
-            {props[slug] ? props[slug] : 0}
+            {slug ? slug : 0}
           </span>
         </li>
       ))}
-      {[
-        { name: 'Confiável', slug: 'confiavel', icon: 'smile' },
-        { name: 'Legal', slug: 'legal', icon: 'cool' },
-        { name: 'Sexy', slug: 'sexy', icon: 'heart' },
-      ].map(({ name, slug, icon }) => {
-        const total = props[slug] ? props[slug] : 2;
+      {reactions.map(({ name, slug, icon }) => {
+        const total = slug ? slug : 2;
         return (
           <li key={`orkut__icon_set__${slug}`}>
             <span className="OrkutNostalgicIconSet__title">
