@@ -3,26 +3,42 @@ import MainGrid from '../src/components/MainGrid';
 import Box from '../src/components/Box';
 import ProfileSideBar from '../src/components/ProfileSideBar';
 import CardBox from '../src/components/CardBox';
-import {User, INITIAL_COMMUNITIES, INITIAL_FAVORITES, myInfos, myReactions} from '../src/utils/constants';
+import {User ,INITIAL_COMMUNITIES, myInfos, myReactions} from '../src/utils/constants';
 import { AlurakutMenu, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
 
 export default function Home() {
     const [comunidades, setComunidades] = React.useState(INITIAL_COMMUNITIES);
+    const [seguidores, setSeguidores] = React.useState([]);
+    const [seguindo, setSeguindo] = React.useState([]);
+    const [github, setgithub] = React.useState([]);
+    React.useEffect(() => {
+        fetch(`https://api.github.com/users/${User}/followers`)
+        .then((res) => {return res.json()})
+        .then((result) => {setSeguidores(result)});
+
+        fetch(`https://api.github.com/users/${User}/following`)
+        .then(res => {return res.json()})
+        .then(result => {setSeguindo(result)});
+
+        fetch(`https://api.github.com/users/${User}`)
+        .then(res => {return res.json()})
+        .then(result => {setgithub(result)})
+    }, []);
   return ( /* html */
     <>
-        <AlurakutMenu githubUser={User}/>
+        <AlurakutMenu githubUser={github.login}/>
         <MainGrid>
         <div className="profileArea" style={{gridArea: 'profileArea'}}>
-            <ProfileSideBar githubUser={User}/>
+            <ProfileSideBar githubUser={github.login}/>
         </div>
         <div className="welcomeArea" style={{gridArea: 'welcomeArea'}}>
             <Box>
-                <h1 className="title">Bem-vindo(a)</h1>
+                <h1 className="title">Bem-vindo(a), {github.name || github.login}</h1>
                 <OrkutNostalgicIconSet myInfos={myInfos} reactions={myReactions}/>
             </Box>
             <Box>
                 <h2 className="subtitle">O que você deseja fazer?</h2>
-                <form method="POST" onSubmit={(event) => { 
+                <form onSubmit={(event) => { 
                     event.preventDefault();
                     const boxDadosDoForm = new FormData(event.target);
                     const comunidade = {
@@ -51,8 +67,9 @@ export default function Home() {
             </Box>
         </div>
         <div className="profileRelationsArea" style={{gridArea: 'profileRelationsArea'}}>
+            <CardBox boxTitle="Seguidores" boxDados={seguidores} type="github"/>
+            <CardBox boxTitle="Seguindo" boxDados={seguindo} type="github"/>
             <CardBox boxTitle="Comunidade" boxDados={comunidades} type="comunidade"/>
-            <CardBox boxTitle="Pessoas Favoritas" boxDados={INITIAL_FAVORITES} type="user"/>
         </div>
         </MainGrid>
     </>
