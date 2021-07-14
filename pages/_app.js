@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: sans-serif;
     background-image: url('https://criticalhits.com.br/wp-content/uploads/2020/12/cb109d5d1402ae804422a89aa168da00.jpg');
     background-position: center;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     background-size: cover;
   }
   #__next {
