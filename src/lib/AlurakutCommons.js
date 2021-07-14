@@ -264,12 +264,12 @@ export function OrkutNostalgicIconSet(props) {
   return (
     <OrkutNostalgicIconSet.List>
       {myInfos.map(({ name, slug, icon }) => (
-        <li key={`orkut__icon_set__${slug}`}>
+        <li key={`orkut__icon_set__${name}_${slug}`}>
           <span style={{ gridArea: 'title' }} className="OrkutNostalgicIconSet__title">
             {name}
           </span>
           <span className="OrkutNostalgicIconSet__number" style={{ gridArea: 'number' }}>
-            <img key={`orkut__icon_set__${slug}_img`} className="OrkutNostalgicIconSet__iconSample" src={`https://alurakut.vercel.app/icons/${icon}.svg`} />
+            <img key={`orkut__icon_set__${name}_${slug}_img`} className="OrkutNostalgicIconSet__iconSample" src={`https://alurakut.vercel.app/icons/${icon}.svg`} />
             {slug ? slug : 0}
           </span>
         </li>
@@ -277,14 +277,14 @@ export function OrkutNostalgicIconSet(props) {
       {reactions.map(({ name, slug, icon }) => {
         const total = slug ? slug : 2;
         return (
-          <li key={`orkut__icon_set__${slug}`}>
+          <li key={`orkut__icon_set__${name}_${slug}`}>
             <span className="OrkutNostalgicIconSet__title">
               {name}
             </span>
             <span className="OrkutNostalgicIconSet__iconComplex" className="OrkutNostalgicIconSet__number" style={{ gridArea: 'number' }}>
               {[0, 1, 2].map((_, index) => {
                 const isHeartActive = index <= (total - 1);
-                return <img key={`orkut__icon_set__${slug}_img_${index}`} src={`https://alurakut.vercel.app/icons/${icon}.svg`} style={{ marginRight: '2px', opacity: isHeartActive ? 1 : '0.5' }} />
+                return <img key={`orkut__icon_set__${name}_${slug}_img_${index}`} src={`https://alurakut.vercel.app/icons/${icon}.svg`} style={{ marginRight: '2px', opacity: isHeartActive ? 1 : '0.5' }} />
               })}
             </span>
           </li>
