@@ -9,10 +9,15 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     background-color: #787878;
-    font-family: sans-serif
+    font-family: sans-serif;
+    background-image: url('https://criticalhits.com.br/wp-content/uploads/2020/12/cb109d5d1402ae804422a89aa168da00.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   #__next {
-    height: 100vh
+    height: 100vh;
+    
   }
   img {
     max-width:100%;
