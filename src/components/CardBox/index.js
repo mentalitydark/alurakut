@@ -6,12 +6,12 @@ export default function CardBox(props) {
                 {props.boxTitle} ({(props.boxDados).length})
             </h2>
             <ul>
-                {(props.boxDados).slice(0,6).map((dado) => {
+                {(props.boxDados).map((dado) => {
                     return (
                         <li key={(props.boxDados).id}>
-                            <a href={`/${dado.type}/${dado.title}`}>
-                                <img src={dado.image}/>
-                                <span>{dado.title}</span>
+                            <a href={`${props.type == "github" ? 'https://github.com/': '/'+props.type+'/'}${dado.login || dado.title}`}>
+                                <img src={dado.avatar_url || dado.image || `https://picsum.photos/200/300`}/>
+                                <span>{dado.login || dado.title}</span>
                             </a>
                         </li>
                     );
