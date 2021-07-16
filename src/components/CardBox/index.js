@@ -10,7 +10,7 @@ export default function CardBox(props) {
                     return (
                         <li key={(props.boxDados).id}>
                             <a href={`${props.type == "github" ? 'https://github.com/': '/'+props.type+'/'}${dado.login || dado.title}`}>
-                                <img src={dado.avatar_url || dado.image || `https://picsum.photos/200/300`}/>
+                                <img src={dado.avatar_url || dado.imageUrl || `https://picsum.photos/200/300`}/>
                                 <span>{dado.login || dado.title}</span>
                             </a>
                         </li>

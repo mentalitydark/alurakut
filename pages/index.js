@@ -7,11 +7,12 @@ import {User ,INITIAL_COMMUNITIES, myInfos, myReactions} from '../src/utils/cons
 import { AlurakutMenu, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
 
 export default function Home() {
-    const [comunidades, setComunidades] = React.useState(INITIAL_COMMUNITIES);
+    const [comunidades, setComunidades] = React.useState([]);
     const [seguidores, setSeguidores] = React.useState([]);
     const [seguindo, setSeguindo] = React.useState([]);
     const [github, setgithub] = React.useState([]);
     React.useEffect(() => {
+        // GET
         fetch(`https://api.github.com/users/${User}/followers`)
         .then((res) => {return res.json()})
         .then((result) => {setSeguidores(result)});
@@ -22,7 +23,25 @@ export default function Home() {
 
         fetch(`https://api.github.com/users/${User}`)
         .then(res => {return res.json()})
-        .then(result => {setgithub(result)})
+        .then(result => {setgithub(result)});
+
+        // API GraphQL
+        fetch(`https://graphql.datocms.com/`, {
+            method: 'POST',
+            headers: {
+                'Authorization' : '24c366b2808a61cf2169c770df3a0d',
+                'Content-Type': 'application/json',
+                'Accept' : 'application/json'
+            },
+            body: JSON.stringify({"query" : `query {
+                allCommunities {
+                  id
+                  title
+                  imageUrl
+                  creatorslug
+                }
+              }`})
+        }).then(res => res.json()).then(result => setComunidades(result.data.allCommunities));
     }, []);
   return ( /* html */
     <>
@@ -42,12 +61,25 @@ export default function Home() {
                     event.preventDefault();
                     const boxDadosDoForm = new FormData(event.target);
                     const comunidade = {
-                        id: new Date().getTime(),
                         title: boxDadosDoForm.get('title'),
-                        image: boxDadosDoForm.get('image')
+                        imageUrl: boxDadosDoForm.get('image'),
+                        creatorslug: User
                     }
-                    const comunidadesAtualizadas = [...comunidades, comunidade];
-                    setComunidades(comunidadesAtualizadas)}}>
+                    fetch('/api/communities', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(comunidade)
+                    })
+                    .then(async (res) => {
+                        const dados = await res.json();
+                        const comunidade = dados.registroCriado;
+                        const comunidadesAtualizadas = [...comunidades, comunidade];
+                        setComunidades(comunidadesAtualizadas)
+                    })
+                    
+                }}>
                     <div>
                         <input  placeholder="Digite aqui o nome da comunidade" 
                             name="title" 
