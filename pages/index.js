@@ -3,10 +3,14 @@ import MainGrid from '../src/components/MainGrid';
 import Box from '../src/components/Box';
 import ProfileSideBar from '../src/components/ProfileSideBar';
 import CardBox from '../src/components/CardBox';
-import {User ,INITIAL_COMMUNITIES, myInfos, myReactions} from '../src/utils/constants';
+import {myInfos, myReactions} from '../src/utils/constants';
 import { AlurakutMenu, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons';
+import nookie from 'nookies';
+import jwt from 'jsonwebtoken';
 
-export default function Home() {
+
+export default function Home(props) {
+    const User = props.githubUser;
     const [comunidades, setComunidades] = React.useState([]);
     const [seguidores, setSeguidores] = React.useState([]);
     const [seguindo, setSeguindo] = React.useState([]);
@@ -99,11 +103,30 @@ export default function Home() {
             </Box>
         </div>
         <div className="profileRelationsArea" style={{gridArea: 'profileRelationsArea'}}>
-            <CardBox boxTitle="Seguidores" boxDados={seguidores} type="github"/>
-            <CardBox boxTitle="Seguindo" boxDados={seguindo} type="github"/>
+            <CardBox boxTitle="Seguidores" length={github.followers} boxDados={seguidores} type="github"/>
+            <CardBox boxTitle="Seguindo" length={github.following} boxDados={seguindo} type="github"/>
             <CardBox boxTitle="Comunidade" boxDados={comunidades} type="comunidade"/>
         </div>
         </MainGrid>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+    const user_token = nookie.get(context).USER_TOKEN;
+    const {githubUser} = jwt.decode(user_token);
+    const {status} = await fetch(`https://api.github.com/users/${githubUser}`).then(res => res);
+    if(status !== 200) {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false
+            }
+        }
+    }
+    return {
+        props: {
+            githubUser
+        },
+    }
 }

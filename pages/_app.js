@@ -17,7 +17,6 @@ const GlobalStyle = createGlobalStyle`
   }
   #__next {
     height: 100vh;
-    
   }
   img {
     max-width:100%;

@@ -3,7 +3,7 @@ export default function CardBox(props) {
     return (
         <ProfileRelationsBoxWrapper>
             <h2 className="smallTitle">
-                {props.boxTitle} ({(props.boxDados).length})
+                {props.boxTitle} ({props.length ||(props.boxDados).length})
             </h2>
             <ul>
                 {(props.boxDados).map((dado) => {
