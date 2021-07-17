@@ -26,10 +26,10 @@ export default function LoginScreen() {
                       'Content-Type': 'application/json'
                   },
                   body: JSON.stringify({githubUser: githubUser})
-              }).then(async (res) => {
+              })
+              .then(async (res) => {
                     const response =  await res.json();
                     const token = response.token;
-                    console.log(response.token);
                     nookies.set(null, 'USER_TOKEN', token, {
                         path: '/',
                         maxAge: 86400 * 7

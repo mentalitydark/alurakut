@@ -113,8 +113,9 @@ export default function Home(props) {
 }
 
 export async function getServerSideProps(context) {
-    const user_token = nookie.get(context).USER_TOKEN;
-    const {githubUser} = jwt.decode(user_token);
+    const {USER_TOKEN} = nookie.get(context);
+    console.log('cookue', nookie.get(context), "TOKEN", USER_TOKEN)
+    const {githubUser} = jwt.decode(USER_TOKEN);
     const {status} = await fetch(`https://api.github.com/users/${githubUser}`).then(res => res);
     if(status !== 200) {
         return {
